@@ -3,14 +3,23 @@ require 'sequel'
 module Sequel
   module MySQL
     class Database < Sequel::Database
-      #TODO: add table_exists?
+      alias_method :old_init, :initialize
+
+      def initialize(args)
+        old_init(args)
+
+        create_table? :throttle_cache do
+          String :key, primary_key: true
+          Float :value, default: 0
+        end
+      end
 
       def cache_dataset
         self[:throttle_cache]
       end
 
       def get(key)
-        (cache_dataset.filter(key: key).first[:value].to_i)
+        (cache_dataset.filter(key: key).first[:value].to_f)
       end
 
       def set(key, value)

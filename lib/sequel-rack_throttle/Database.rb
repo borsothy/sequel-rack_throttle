@@ -3,12 +3,14 @@ require 'sequel'
 module Sequel
   module MySQL
     class Database < Sequel::Database
+      #TODO: add table_exists?
+
       def cache_dataset
         self[:throttle_cache]
       end
 
       def get(key)
-        cache_dataset.filter(key: key).first[:value]
+        (cache_dataset.filter(key: key).first[:value].to_i)
       end
 
       def set(key, value)

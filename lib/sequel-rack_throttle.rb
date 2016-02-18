@@ -1,1 +1,1 @@
-require_relative 'sequel-rack_throttle/Database'
+require_relative 'sequel-rack_throttle/ThrottleAdapter'

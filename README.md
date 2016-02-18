@@ -18,10 +18,10 @@ or add this line to your `Gemfile`:
 require '<adapter>'
 require 'sequel/rack_throttle'
 
-use Rack::Throttle::Interval, :cache => Sequel.connect('<adapter>://<user>:<password>@<host>:<port>/<database>')
+use Rack::Throttle::Interval, :cache => ThrottleAdapter.new(<sequel db object>, <optional table name>)
 ```
 
-Please provide an **existing** database in your connection string. The gem will automatically create a designated table with the name `throttle_cache` in the given database. Make sure you require the desired database driver as well!
+Please provide an **existing** database in your connection string. The gem will automatically create a designated table in the given database if it does not exist already (with name `throttle_cache` if you do not define otherwise explicitly). Make sure you require the desired database driver as well!
 
 For further information about throttling your API, check [rack-throttle examples](https://github.com/bendiken/rack-throttle/blob/master/README.md).
 
